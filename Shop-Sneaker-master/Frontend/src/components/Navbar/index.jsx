@@ -65,23 +65,6 @@ export default function Navbar() {
 
   const isAuthenticated = Boolean(authToken);
   const isAdmin = currentUser?.role === "admin";
-  const currentCollection = new URLSearchParams(location.search).get(
-    "collection",
-  );
-
-  const isNavItemActive = (item) => {
-    if (item.label === "COLLECTIONS") {
-      return false;
-    }
-
-    const itemPath = item.path;
-    const [pathname, search = ""] = itemPath.split("?");
-    const itemCollection = new URLSearchParams(search).get("collection");
-
-    return (
-      location.pathname === pathname && currentCollection === itemCollection
-    );
-  };
 
   useEffect(() => {
     const syncAuthState = () => {

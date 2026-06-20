@@ -73,10 +73,7 @@ const ShopAll = () => {
   }, [location.search]);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [pageState, setPageState] = useState({
-    collectionMode: "",
-    page: 1,
-  });
+  const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("featured");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -92,7 +89,6 @@ const ShopAll = () => {
       value: initialSearch,
     };
   });
-  const [newArrivalReferenceTime] = useState(() => Date.now());
   const [filters, setFilters] = useState({
     categories: [],
     priceRange: [0, 10000000],
@@ -104,24 +100,13 @@ const ShopAll = () => {
   const searchTerm =
     searchState.source === location.search ? searchState.value : searchFromUrl;
   const deferredSearch = useDeferredValue(searchTerm);
-  const queryParams = useMemo(
-    () => new URLSearchParams(location.search),
-    [location.search],
-  );
-  const collectionMode = queryParams.get("collection") || "";
-
   useEffect(() => {
-    const nextSearchTerm = (
-      queryParams.get("search") ||
-      queryParams.get("q") ||
-      ""
-    ).trim();
-    setSearchTerm(nextSearchTerm);
-  }, [queryParams]);
-
-  useEffect(() => {
+    setSearchState({
+      source: location.search,
+      value: searchFromUrl,
+    });
     setCurrentPage(1);
-  }, [collectionMode]);
+  }, [location.search, searchFromUrl]);
 
   useEffect(() => {
     let cancelled = false;
@@ -192,12 +177,11 @@ const ShopAll = () => {
   const filteredProducts = useMemo(() => {
     const keyword = deferredSearch.trim().toLowerCase();
     const now = Date.now();
-    const tenDaysInMs = 10 * 24 * 60 * 60 * 1000;
 
     const filtered = products.filter((product) => {
       if (collectionMode === "new-arrivals") {
         const createdAt = new Date(product.createdAt).getTime();
-        if (!Number.isFinite(createdAt) || now - createdAt > tenDaysInMs) {
+        if (!Number.isFinite(createdAt) || now - createdAt > TEN_DAYS_IN_MS) {
           return false;
         }
       } else if (collectionMode === "sale" && !product.isSale) {
