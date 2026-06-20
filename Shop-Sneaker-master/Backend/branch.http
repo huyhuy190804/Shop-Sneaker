@@ -1,0 +1,32 @@
+@baseUrl = http://localhost:3001/api/brands
+
+### GET all brands
+GET {{baseUrl}}
+
+### CREATE new brand
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "name": "Puma",
+  "slug": "puma",
+  "description": "Puma SE is a German multinational corporation that designs and manufactures athletic and casual footwear, apparel and accessories.",
+  "logoUrl": "https://upload.wikimedia.org/wikipedia/en/b/b8/Puma_Logo.svg"
+}
+
+### GET brand by ID (Nike)
+GET {{baseUrl}}/69e4c075cf9a1403c0ab6d8e
+
+### UPDATE brand (Adidas)
+PUT {{baseUrl}}/69e4c080cf9a1403c0ab6d8f
+Content-Type: application/json
+
+{
+  "name": "Adidas Originals",
+  "slug": "adidas-originals",
+  "description": "Premium Adidas lifestyle and classic collection",
+  "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg"
+}
+
+### DELETE brand (Adidas)
+DELETE {{baseUrl}}/69e4c080cf9a1403c0ab6d8f

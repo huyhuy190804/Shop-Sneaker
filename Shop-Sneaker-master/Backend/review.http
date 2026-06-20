@@ -1,0 +1,70 @@
+@baseUrl = http://localhost:3001/api
+@token = testtoken
+@adminToken = testtoken
+
+###
+# Review API Test
+# Flow gợi ý:
+# 1. GET product reviews
+# 2. POST create review
+# 3. GET admin reviews
+# 4. PUT approve/reject review
+# 5. PUT/DELETE review by user
+#
+# Demo product đã seed:
+# - Product ID: 665000000000000000000101
+# - User demo order đã seed cho product này
+
+###
+# 1) Lấy review public theo product
+GET {{baseUrl}}/reviews/665000000000000000000101
+
+###
+# 2) Tạo review mới cho product
+POST {{baseUrl}}/reviews/665000000000000000000101
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "rating": 5,
+  "comment": "Sản phẩm rất ổn, form đẹp và đi êm."
+}
+
+###
+# 3) Lấy danh sách review cho admin
+GET {{baseUrl}}/admin/reviews
+Authorization: Bearer {{adminToken}}
+
+###
+# 4) Duyệt / từ chối review
+# Thay PUT_REVIEW_ID_HERE bằng _id lấy từ request tạo review ở trên
+PUT {{baseUrl}}/admin/reviews/PUT_REVIEW_ID_HERE/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "status": "approved"
+}
+
+###
+# 5) Cập nhật review của user
+# Thay PUT_REVIEW_ID_HERE bằng _id review của chính user
+PUT {{baseUrl}}/reviews/PUT_REVIEW_ID_HERE
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "rating": 4,
+  "comment": "Mình cập nhật lại cảm nhận sau khi đi thử thêm."
+}
+
+###
+# 6) Xóa review của user
+# Thay PUT_REVIEW_ID_HERE bằng _id review của chính user
+DELETE {{baseUrl}}/reviews/PUT_REVIEW_ID_HERE
+Authorization: Bearer {{token}}
+
+###
+# Ghi chú:
+# - Nếu bạn dùng auth dev fallback, token có thể để bất kỳ chuỗi nào.
+# - Review mới tạo sẽ ở trạng thái pending, cần admin approve thì GET public mới thấy.

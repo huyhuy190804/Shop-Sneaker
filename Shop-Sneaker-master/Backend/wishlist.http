@@ -1,0 +1,32 @@
+@baseUrl = http://localhost:3001/api
+@token = testtoken
+
+###
+# Wishlist API Test
+# Flow:
+# 1) Add a product to wishlist
+# 2) Remove a product from wishlist
+#
+# Notes:
+# - If backend dev fallback auth is enabled, @token can be any string.
+# - Replace PRODUCT_ID_HERE with a real product _id from /api/products.
+
+###
+# 1) Add product to wishlist
+POST {{baseUrl}}/users/wishlist
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "productId": "PRODUCT_ID_HERE"
+}
+
+###
+# 2) Remove product from wishlist
+DELETE {{baseUrl}}/users/wishlist/PRODUCT_ID_HERE
+Authorization: Bearer {{token}}
+
+###
+# Optional: check current profile with populated wishlist
+GET {{baseUrl}}/users/profile
+Authorization: Bearer {{token}}

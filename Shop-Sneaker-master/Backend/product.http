@@ -1,0 +1,58 @@
+@baseUrl = http://localhost:3001/api/products
+
+### 1. Lấy tất cả sản phẩm (GET)
+# Route này yêu cầu bạn phải có app.use('/api/products', productRoutes) trong server.js
+GET {{baseUrl}}
+Content-Type: application/json
+
+###
+
+### 2. Tạo mới một sản phẩm (POST)
+# Lưu ý: brand và category phải là ObjectId hợp lệ từ Database
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "name": "Nike Air Jordan 1 Low",
+  "slug": "nike-air-jordan-1-low-2026",
+  "description": "Phiên bản giới hạn năm 2026 với chất liệu da cao cấp.",
+  "brand": "64fa8b2c45e8d910a2f4c101", 
+  "category": "64fa8b2c45e8d910a2f4c111",
+  "basePrice": 4500000,
+  "salePrice": 4200000,
+  "productImages": [
+    "https://example.com/aj1-low-1.jpg",
+    "https://example.com/aj1-low-2.jpg"
+  ],
+  "skuPrefix": "NIKE-AJ1",
+  "isFeatured": true,
+  "status": "active"
+}
+
+###
+
+### 3. Lấy thông tin 1 sản phẩm theo ID (GET)
+# Thay {id} bằng ID thực tế sau khi đã POST thành công
+@productId = 60d21b4667d0d8992e610c85
+
+GET {{baseUrl}}/{{productId}}
+Content-Type: application/json
+
+###
+
+### 4. Cập nhật sản phẩm (PUT)
+PUT {{baseUrl}}/{{productId}}
+Content-Type: application/json
+
+{
+  "name": "Nike Air Jordan 1 Low (Updated)",
+  "basePrice": 4600000,
+  "status": "active"
+}
+
+###
+
+### 5. Xóa sản phẩm (DELETE)
+DELETE {{baseUrl}}/{{productId}}
+Content-Type: application/json
+

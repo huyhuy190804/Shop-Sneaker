@@ -1,0 +1,44 @@
+@baseUrl = http://localhost:3001/api/categories
+
+### GET all categories (Flat)
+GET {{baseUrl}}
+
+### GET all categories (Tree structure)
+GET {{baseUrl}}?type=tree
+
+### CREATE new parent category
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "name": "Men",
+  "slug": "men",
+  "description": "Men's sneakers and apparel",
+  "imageUrl": "https://example.com/men.jpg"
+}
+
+### CREATE new child category (Replace parent ID with actual ID from Men category)
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "name": "Running Shoes",
+  "slug": "men-running-shoes",
+  "description": "Running shoes for men",
+  "parentCategory": "6628c6a0c5c4e7a3b8d1e2f3"
+}
+
+### GET category by ID
+GET {{baseUrl}}/6628c6a0c5c4e7a3b8d1e2f3
+
+### UPDATE category
+PUT {{baseUrl}}/6628c6a0c5c4e7a3b8d1e2f3
+Content-Type: application/json
+
+{
+  "name": "Men's Collection",
+  "description": "Updated description for men's collection"
+}
+
+### DELETE category
+DELETE {{baseUrl}}/6628c6a0c5c4e7a3b8d1e2f3
